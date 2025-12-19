@@ -133,6 +133,19 @@ export default function Home() {
 
         <footer style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a
+            href="/about"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+              background: "rgba(255,255,255,0.12)",
+              padding: "10px 14px",
+              borderRadius: 12,
+              fontWeight: 600,
+            }}
+          >
+            About Page →
+          </a>
+          <a
             href="https://nextjs.org/"
             target="_blank"
             rel="noopener noreferrer"

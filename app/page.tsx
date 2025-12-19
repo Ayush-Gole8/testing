@@ -53,153 +53,92 @@ export default function Home() {
 
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: bg,
-        color: "#fff",
-        fontFamily: "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji",
-        transition: "background 500ms ease",
-      }}
+      className="min-h-screen flex items-center justify-center text-white transition-all duration-500"
+      style={{ background: bg }}
     >
-      <main
-        style={{
-          width: "min(960px, 92vw)",
-          borderRadius: 24,
-          backdropFilter: "blur(8px)",
-          background: "rgba(0,0,0,0.35)",
-          boxShadow: "0 30px 80px rgba(0,0,0,0.35)",
-          padding: "40px 32px",
-        }}
-      >
-        <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
+      <main className="w-full max-w-6xl mx-6 bg-black/40 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+        <header className="flex items-center justify-between gap-4 flex-wrap mb-8">
           <div>
-            <h1 style={{ fontSize: 36, fontWeight: 800, letterSpacing: -0.5, margin: 0 }}>Random Test Home</h1>
-            <p style={{ margin: "8px 0 0", opacity: 0.9 }}>A playful, randomized Next.js landing for experiments.</p>
+            <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-transparent">
+              Welcome Home
+            </h1>
+            <p className="text-white/80 text-lg">
+              A playful, randomized Next.js experience ✨
+            </p>
           </div>
           <button
-            aria-label="Shuffle"
             onClick={() => setSeed(Date.now() ^ Math.floor(Math.random() * 1_000_000))}
-            style={{
-              appearance: "none",
-              border: "none",
-              background: "#ffffff",
-              color: "#111827",
-              borderRadius: 999,
-              padding: "12px 18px",
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 8px 20px rgba(0,0,0,0.25)",
-            }}
+            className="px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold hover:scale-105 hover:shadow-2xl transition-all active:scale-95"
           >
-            Shuffle ✨
+            🎲 Shuffle
           </button>
         </header>
 
-        <section style={{ marginTop: 28 }}>
-          <blockquote style={{ fontSize: 20, lineHeight: 1.5, opacity: 0.95 }}>
+        <section className="bg-gradient-to-r from-white/10 to-white/5 rounded-2xl p-6 border border-white/10 mb-8">
+          <blockquote className="text-2xl font-medium text-center italic text-white/90">
             “{quote}”
           </blockquote>
         </section>
 
-        <section style={{ marginTop: 28 }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(8, 1fr)",
-              gap: 8,
-            }}
-          >
+        <section className="mb-8">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <span className="text-2xl">🎨</span>
+            Random Emoji Grid
+          </h2>
+          <div className="grid grid-cols-8 gap-2">
             {emojis.map((e, i) => (
               <div
                 key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  height: 46,
-                  borderRadius: 12,
-                  background: "rgba(255,255,255,0.12)",
-                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2)",
-                }}
+                className="flex items-center justify-center h-14 rounded-xl bg-white/10 hover:bg-white/20 hover:scale-110 transition-all cursor-pointer border border-white/5 shadow-lg"
               >
-                <span style={{ fontSize: 22 }}>{e}</span>
+                <span className="text-2xl">{e}</span>
               </div>
             ))}
           </div>
         </section>
 
-        <footer style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <section className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-8">
+          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+            <span className="text-2xl">🎨</span>
+            Current Color Palette
+          </h2>
+          <div className="flex gap-4">
+            {palette.map((color, i) => (
+              <div key={i} className="flex-1">
+                <div 
+                  className="h-24 rounded-xl shadow-lg hover:scale-105 transition-transform cursor-pointer border-2 border-white/20"
+                  style={{ background: color }}
+                />
+                <p className="text-center mt-2 text-sm text-white/70 font-mono">{color}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <footer className="flex gap-3 flex-wrap">
           <a
             href="/gallery"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              background: "rgba(255,255,255,0.12)",
-              padding: "10px 14px",
-              borderRadius: 12,
-              fontWeight: 600,
-            }}
+            className="px-6 py-3 bg-gradient-to-r from-pink-500/20 to-purple-500/20 hover:from-pink-500/30 hover:to-purple-500/30 rounded-xl font-semibold border border-pink-500/30 hover:scale-105 transition-all"
           >
-            Gallery →
+            🖼️ Gallery
           </a>
           <a
             href="/play"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              background: "rgba(255,255,255,0.12)",
-              padding: "10px 14px",
-              borderRadius: 12,
-              fontWeight: 600,
-            }}
+            className="px-6 py-3 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 hover:from-cyan-500/30 hover:to-blue-500/30 rounded-xl font-semibold border border-cyan-500/30 hover:scale-105 transition-all"
           >
-            Play Page →
+            🎮 Play
           </a>
           <a
             href="/about"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              background: "rgba(255,255,255,0.12)",
-              padding: "10px 14px",
-              borderRadius: 12,
-              fontWeight: 600,
-            }}
+            className="px-6 py-3 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 hover:from-purple-500/30 hover:to-indigo-500/30 rounded-xl font-semibold border border-purple-500/30 hover:scale-105 transition-all"
           >
-            About Page →
+            ℹ️ About
           </a>
           <a
-            href="https://nextjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              background: "rgba(255,255,255,0.12)",
-              padding: "10px 14px",
-              borderRadius: 12,
-              fontWeight: 600,
-            }}
+            href="/contact"
+            className="px-6 py-3 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 hover:from-emerald-500/30 hover:to-teal-500/30 rounded-xl font-semibold border border-emerald-500/30 hover:scale-105 transition-all"
           >
-            Learn Next.js →
-          </a>
-          <a
-            href="https://vercel.com/templates"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#fff",
-              textDecoration: "none",
-              background: "rgba(255,255,255,0.12)",
-              padding: "10px 14px",
-              borderRadius: 12,
-              fontWeight: 600,
-            }}
-          >
-            Explore Templates →
+            📧 Contact
           </a>
         </footer>
       </main>

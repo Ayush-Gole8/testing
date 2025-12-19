@@ -133,6 +133,19 @@ export default function Home() {
 
         <footer style={{ marginTop: 32, display: "flex", gap: 12, flexWrap: "wrap" }}>
           <a
+            href="/gallery"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+              background: "rgba(255,255,255,0.12)",
+              padding: "10px 14px",
+              borderRadius: 12,
+              fontWeight: 600,
+            }}
+          >
+            Gallery →
+          </a>
+          <a
             href="/play"
             style={{
               color: "#fff",

@@ -3,6 +3,34 @@ import { useState } from "react";
 
 export default function Contact() {
   const [formState, setFormState] = useState({ name: "", email: "", message: "" });
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [error, setError] = useState<string | null>(null)
+
+  const validate = () => {
+    if (!formState.name.trim()) return 'Please enter your name.'
+    if (!formState.email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formState.email)) return 'Please enter a valid email.'
+    if (!formState.message.trim()) return 'Please enter a message.'
+    return null
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setError(null)
+    const v = validate()
+    if (v) {
+      setError(v)
+      setStatus('error')
+      return
+    }
+
+    setStatus('submitting')
+    // simulate network
+    setTimeout(() => {
+      setStatus('success')
+      setFormState({ name: '', email: '', message: '' })
+      setTimeout(() => setStatus('idle'), 2500)
+    }, 900)
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white py-20">
@@ -19,19 +47,19 @@ export default function Contact() {
         <div className="grid md:grid-cols-5 gap-8">
           <div className="md:col-span-2 space-y-6">
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-blue-500/50 transition-all">
-              <div className="text-3xl mb-3">📧</div>
+              <div className="text-3xl mb-3" aria-hidden>📧</div>
               <h3 className="text-xl font-bold mb-2">Email</h3>
               <p className="text-white/70">hello@example.com</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-cyan-500/50 transition-all">
-              <div className="text-3xl mb-3">📱</div>
+              <div className="text-3xl mb-3" aria-hidden>📱</div>
               <h3 className="text-xl font-bold mb-2">Phone</h3>
               <p className="text-white/70">+1 (555) 123-4567</p>
             </div>
 
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-teal-500/50 transition-all">
-              <div className="text-3xl mb-3">📍</div>
+              <div className="text-3xl mb-3" aria-hidden>📍</div>
               <h3 className="text-xl font-bold mb-2">Location</h3>
               <p className="text-white/70">San Francisco, CA</p>
             </div>
@@ -40,7 +68,7 @@ export default function Contact() {
               <h3 className="text-lg font-bold mb-4">Follow Us</h3>
               <div className="flex gap-4">
                 {['💬', '🐦', '📸', '💼'].map((emoji, i) => (
-                  <button key={i} className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110">
+                  <button key={i} aria-label={`Social ${i + 1}`} className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center text-xl transition-all hover:scale-110">
                     {emoji}
                   </button>
                 ))}
@@ -49,7 +77,7 @@ export default function Contact() {
           </div>
 
           <div className="md:col-span-3 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit} noValidate>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-2 text-white/90">
                   Your Name
@@ -62,6 +90,7 @@ export default function Contact() {
                   onChange={(e) => setFormState({...formState, name: e.target.value})}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-white placeholder-white/40"
                   placeholder="John Doe"
+                  required
                 />
               </div>
 
@@ -77,6 +106,7 @@ export default function Contact() {
                   onChange={(e) => setFormState({...formState, email: e.target.value})}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all text-white placeholder-white/40"
                   placeholder="john@example.com"
+                  required
                 />
               </div>
 
@@ -92,15 +122,24 @@ export default function Contact() {
                   onChange={(e) => setFormState({...formState, message: e.target.value})}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all text-white placeholder-white/40 resize-none"
                   placeholder="Tell us what you're thinking..."
+                  required
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full px-8 py-4 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all hover:scale-[1.02] active:scale-[0.98]"
-              >
-                Send Message ✨
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="w-full px-8 py-4 bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {status === 'submitting' ? 'Sending...' : 'Send Message ✨'}
+                </button>
+              </div>
+
+              <div aria-live="polite">
+                {status === 'success' && <div className="text-sm text-green-400">Thanks — your message was sent.</div>}
+                {status === 'error' && error && <div className="text-sm text-rose-400">{error}</div>}
+              </div>
             </form>
           </div>
         </div>
